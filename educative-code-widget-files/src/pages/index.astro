@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+
+import Layout from '@components/Layout.astro';
+import Hero from '@components/Hero.astro';
+import Latest from '@components/Latest.astro';
+import FAQ from '@components/FAQ.astro';
+
+const posts = (await getCollection('posts')).sort(
+	(a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+const latest = posts[0];
+const remaining = posts.slice(1);
+---
+
+<Layout>
+	<Hero post={latest} displayAsLink={true} />
+  	<section class="content">
+    	<Latest posts={remaining} />
+		<FAQ />
+	</section>
+</Layout>

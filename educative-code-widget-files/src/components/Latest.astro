@@ -1,0 +1,73 @@
+---
+import Card from '@components/Card.astro';
+import Button from '@components/Button.astro';
+
+const {
+    posts,
+    loadMoreAmount = 3
+} = Astro.props;
+---
+
+<ul id="latest" data-load-more={loadMoreAmount}>
+    {posts.map((post: any, index: number) => (
+        <li class:list={[index >= loadMoreAmount && 'hidden']}>
+            <Card post={post} />
+        </li>
+    ))}
+</ul>
+
+<div>
+    <Button id="loadMore">Load More</Button>
+</div>
+
+<style>
+    ul {
+        display: grid;
+        gap: var(--spacing-regular);
+    }
+
+    div {
+        margin: 50px 0;
+        text-align: center;
+    }
+
+    .hidden {
+        display: none;
+    }
+    
+    @media (min-width: 600px) {
+        ul {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (min-width: 900px) {
+        ul {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+</style>
+
+<script>
+    import { on, get } from '@utils';
+
+    const latest = get('#latest') as HTMLUListElement;
+    const posts = Array.from(latest.children);
+
+    let toggleAmount = 0;
+
+    on('#loadMore', 'click', (event: Event) => {
+        posts.forEach(element => {
+            if (element.classList.contains('hidden') && toggleAmount < Number(latest.dataset.loadMore)) {
+                element.classList.remove('hidden');
+                toggleAmount += 1;
+            }
+        })
+        
+        toggleAmount = 0;
+
+        if (!posts.find(element => element.classList.contains('hidden'))) {
+            (event.currentTarget as HTMLButtonElement).remove();
+        }
+    })
+</script>

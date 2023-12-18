@@ -1,0 +1,17 @@
+<button {...Astro.props}>
+    <slot />
+</button>
+
+<style>
+    button {
+        font-size: var(--font-regular);
+        padding: var(--spacing-small) var(--spacing-regular);
+        cursor: pointer;
+        color: var(--text-primary);
+        border-radius: var(--radius);
+        border: 1px solid transparent;
+        background:
+            linear-gradient(var(--primary-light), var(--primary-light)) padding-box,
+            linear-gradient(to right, var(--cta-gradient-from), var(--cta-gradient-to)) border-box;
+    }
+</style>

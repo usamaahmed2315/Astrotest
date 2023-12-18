@@ -1,0 +1,19 @@
+---
+import Layout from '@components/Layout.astro';
+
+export function getStaticPaths() {
+    return [
+        { params: { post: 'latest' }},
+        { params: { post: 'first-post' }},
+        { params: { post: 'second-post' }},
+    ];
+}
+
+const { post } = Astro.params;
+---
+
+<Layout>
+    <section class="content">
+        <h1>This post is: {post}</h1>
+    </section>
+</Layout>

@@ -1,0 +1,81 @@
+---
+import { FAQs } from '@config';
+
+const {
+    faqs = FAQs
+} = Astro.props;
+---
+
+<h2>FAQ</h2>
+<dl>
+    {faqs.map((faq: any) => (
+        <dt aria-expanded={faq.open ? 'true' : 'false'}>
+            {faq.question}
+            <img
+                src={`/assets/icons/${faq.open ? 'minus' : 'plus'}.svg`}
+                alt="Expand"
+                width="20"
+                height="20" 
+            />
+        </dt>
+        <dd class:list={[!faq.open && 'hidden']}>{faq.answer}</dd>
+    ))}
+</dl>
+
+<style>
+    dt {
+        padding: var(--spacing-regular);
+        background: var(--primary-light);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: var(--spacing-regular);
+        cursor: pointer;
+        user-select: none;
+    }
+
+    dt[aria-expanded="true"] {
+        margin-bottom: 0;
+        border-bottom: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    img {
+        object-fit: contain;
+    }
+
+    dd {
+        padding: 0 var(--spacing-regular) var(--spacing-regular) var(--spacing-regular);
+        background: var(--primary-light);
+        border: 1px solid var(--border);
+        border-top: 0;
+        border-bottom-left-radius: var(--radius);
+        border-bottom-right-radius: var(--radius);
+        margin: 0 0 var(--spacing-regular) 0;
+        color: var(--text-secondary);
+        font-size: var(--font-small);
+        line-height: var(--line-height);
+    }
+</style>
+
+<script>
+    import { on, toggleClass } from '@utils'
+
+    on('dt', 'click', (event: any) => {
+        const target = event.currentTarget
+        const isExpanded = target.ariaExpanded === 'true'
+
+        target.ariaExpanded = isExpanded
+            ? false
+            : true
+
+        target.children[0].src = target.children[0].src.replace(
+            isExpanded ? 'minus' : 'plus',
+            isExpanded ? 'plus' : 'minus'
+        )
+
+        toggleClass(target.nextElementSibling, 'hidden')
+    }, true)
+</script>

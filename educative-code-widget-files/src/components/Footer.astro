@@ -1,0 +1,80 @@
+---
+import { menu, author } from '@config';
+import { getSocialName } from '@utils';
+
+const columns = [
+	{
+		title: 'Sitemap',
+		items: menu
+	},
+	{
+		title: 'Social',
+		items: author.socials.map(social => ({
+			name: getSocialName(social),
+			url: social,
+		}))
+	}
+]
+---
+
+<footer>
+	<div class="columns">
+		{columns.map(column => (
+			<div>
+				<strong>{column.title}</strong>
+				<ul>
+					{column.items.map(item => (
+						<li>
+							<a href={item.url}>{item.name}</a>
+						</li>
+					))}
+				</ul>
+			</div>
+		))}
+	</div>
+
+	<div class="copyright">
+		&copy; {new Date().getFullYear()} Astro Blog. All rights reserved.
+	</div>
+</footer>
+
+<style>
+	footer {
+		padding: 50px var(--spacing-regular) var(--spacing-regular) var(--spacing-regular);
+		background: var(--primary-light);
+		border-top: 1px solid var(--border);
+	}
+
+	strong {
+		display: block;
+		margin-bottom: var(--spacing-small);
+		font-size: var(--font-large);
+	}
+
+	li {
+		margin-bottom: var(--spacing-small);
+	}
+	
+	a {	
+		color: var(--text-secondary);
+		text-decoration: none;
+		font-size: var(--font-small);
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	.columns {
+		display: flex;
+		justify-content: center;
+		gap: 100px;
+	}
+
+	.copyright {
+		color: var(--text-secondary);
+		text-align: center;
+		font-size: var(--font-xs);
+		margin-top: var(--spacing-regular);
+	}
+</style>

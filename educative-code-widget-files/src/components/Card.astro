@@ -1,0 +1,70 @@
+---
+import ConditionalWrapper from '@components/ConditionalWrapper.astro';
+import Meta from '@components/Meta.astro';
+
+const {
+    post,
+    inline = false,
+    showExcerpt = false
+} = Astro.props;
+---
+
+<a href={post.slug} class:list={[inline && 'inline']}>
+    <img
+        src={post.data.heroImage}
+        alt={post.data.title}
+        height={200}
+        width={inline && 250}
+    />
+    <ConditionalWrapper condition={inline}>
+        <div slot="wrapper">children</div>
+        <strong>{post.data.title}</strong>
+        <Meta
+            publishDate={post.data.publishDate}
+            readTime={post.body}
+        />
+        {showExcerpt && <p>{post.data.excerpt.substring(0, 150) + '...'}</p>}
+    </ConditionalWrapper>
+</a>
+
+<style>
+    a {
+        color: var(--color-text);
+        text-decoration: none;
+    }
+
+    img {
+        display: block;
+        width: 100%;
+        margin-bottom: var(--spacing-small);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+    }
+
+    strong {
+        font-size: var(--font-xl);
+        display: block;
+    }
+
+    p {
+        line-height: var(--line-height);
+        color: var(--text-secondary);
+        font-size: var(--font-small);
+    }
+
+    .inline {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-regular);
+    }
+    
+    @media (min-width: 600px) {
+        .inline {
+            flex-direction: row;
+        }
+        
+        .inline img {
+            width: 250px;
+        }
+    }
+</style>

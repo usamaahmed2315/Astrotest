@@ -1,0 +1,56 @@
+---
+import { menu } from '@config';
+---
+
+<header>
+	<div>
+		<a href="/" class="logo">
+			<img src="assets/img/logo.svg" alt="Logo" width="20" height="20" />
+		</a>
+		<ul>
+			{menu.map(item => (
+				<li>
+					<a href={item.url}>{item.name}</a>
+				</li>
+			))}
+		</ul>
+	</div>
+</header>
+
+<style>
+	header {
+		padding: var(--spacing-small);
+		border-bottom: 1px solid var(--border);
+		position: sticky;
+		top: 0;
+		background: var(--primary);
+		z-index: 1;
+	}
+
+	div {
+		display: flex;
+		align-items: center;
+		max-width: 1200px;
+		margin: 0 auto;
+		gap: var(--spacing-regular);
+	}
+
+	ul {
+		display: flex;
+		gap: var(--spacing-regular);
+	}
+
+	a {
+		color: var(--text);
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
+	.logo {
+		display: inline;
+		height: var(--spacing-regular);
+	}
+</style>
